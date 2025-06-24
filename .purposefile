@@ -1,0 +1,16 @@
+.purposefile                    Configures purposefile
+.gitignore                      Configures git to ignore certain files
+.prettierrc                     Configures Prettier
+.prettierignore                 Configures Prettier ignored files
+package.json                    Configures npm and related tools
+pnpm-lock.yaml                  Lock file for pnpm
+README.md                       Documentation for repo
+LICENSE                         License for package
+.git/**                         Internal git state & config
+node_modules/**/*               Dependencies installed by npm
+src/**/*.js                     Source files
+!src/**/*.test.js               Dont place test files within src/
+test/**/*.test.js               Test files
+dist/**/*.{js,d.ts,mjs}{,.map}  Built source files
+tmp/**                          Temporary files
+media/**/*.{mp4,gif}            Media files (demo, features, etc.)

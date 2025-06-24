@@ -1,0 +1,66 @@
+{
+  "name": "js-dev-assistant",
+  "version": "1.0.0",
+  "description": "JS Developer assistant - manipulate over source files - refactor, view, etc. not leaving a terminal",
+  "main": "src/cli.js",
+  "scripts": {
+    "test": "vitest",
+    "build": "unbuild",
+    "dev": "node src/cli.js",
+    "prettify": "prettier . --write",
+    "pretcheck": "prettier . --check",
+    "checkfiles": "purposefile"
+  },
+  "keywords": [
+    "dev",
+    "ast",
+    "abstractsyntaxtree",
+    "magic",
+    "magicmanipulation",
+    "manipulation",
+    "refactoring",
+    "view",
+    "file",
+    "sourcecode",
+    "helper",
+    "developer",
+    "codebase",
+    "helper",
+    "interactive",
+    "assistant"
+  ],
+  "homepage": "https://github.com/akgondber/dev-assistant",
+  "repository": "akgondber/dev-assistant",
+  "author": "Rushan Alyautdinov",
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.1",
+  "bin": {
+    "js-dev-assistant": "dist/cli.mjs",
+    "dev-assistant": "dist/cli.mjs",
+    "devasis": "dist/cli.mjs",
+    "deva": "dist/cli.mjs",
+    "refactorer": "dist/cli.mjs"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "ansi-escapes": "^7.0.0",
+    "chalk": "^5.4.1",
+    "citty": "^0.1.6",
+    "fdir": "^6.4.6",
+    "figures": "^6.1.0",
+    "magic-string": "^0.30.17",
+    "meriyah": "^6.1.4",
+    "meriyah-walker": "^3.0.0",
+    "terminal-size": "^4.0.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "purposefile": "^1.2.0",
+    "unbuild": "^3.5.0",
+    "vitest": "^3.2.4"
+  },
+  "files": [
+    "dist"
+  ]
+}
