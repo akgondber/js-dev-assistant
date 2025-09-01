@@ -1,0 +1,28 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 85
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "suspicious": {
+        "noGlobalIsNan": "off"
+      }
+    }
+  },
+  "assist": {
+    "enabled": false
+  },
+  "json": {
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  }
+}

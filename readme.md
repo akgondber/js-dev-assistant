@@ -11,20 +11,23 @@ $ npm install --global js-dev-assistant
 ## CLI
 
 ```
-    $ js-dev-assistant --help
+$ js-dev-assistant --help
 
-    Manipulate over source files - refactor, view, etc. not leaving a terminal (js-dev-assistant v1.0.0)
+Manipulate over source files - refactor, view, etc. not leaving a terminal (dev-assistant v2.0.0)
 
-    USAGE js-dev-assistant [OPTIONS] [COMMAND]
+USAGE dev-assistant [OPTIONS] [COMMAND]
 
-    ARGUMENTS
+ARGUMENTS
 
-    COMMAND    An optional command name (refactor, view...), will be prompted interactively if not provided
+  COMMAND    An optional command name (refactor, view...), will be prompted interactively if not provided    
 
-    OPTIONS
+OPTIONS
 
-        --root    Root folder to search files on
-    -f, --file    source file name
+                                      --root    Root folder to search files on
+                                  -f, --file    source file name
+                                      --hook    custom hook to perform over changed file
+                          -p, --prettierHook    perform prettier format command over changed file 
+                     --viewAfterManipulation    Run view file command after manipulation over file
 ```
 
 You can provide a command name and file when issuing a command or by choosing from interactive prompts.
@@ -38,6 +41,12 @@ In view mode you can:
 
 - scroll a content using arrow keys
 - press `Ctrl+C` or `q` key in the keyboard in order to exit from program
+
+Tips:
+
+- to format modified file with prettier you can use `--prettier-hook` flag
+- to run a custom command after job is performed you can use the `--hook` flag, (for example, `--hook "npm test"`) 
+
 
 ## Demo
 

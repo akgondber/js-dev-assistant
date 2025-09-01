@@ -1,8 +1,5 @@
 import { expect, test } from "vitest";
-import {
-  getAllVariables,
-  refactorVariable,
-} from "../../src/refactorers/variable";
+import { getAllVariables, refactorVariable } from "../../src/refactorers/variable";
 
 const exampleCode = `
 const foo = 4;

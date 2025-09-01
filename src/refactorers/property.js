@@ -8,7 +8,7 @@ const refactorProperty = (content, propertyName, newName) => {
   const ms = new MagicString(content);
 
   walk(tree, {
-    enter(node, parent, key, index) {
+    enter(node, _parent, _key, _index) {
       if (node.type === "MemberExpression") {
         if (
           node.property.type === "Identifier" &&
@@ -28,7 +28,7 @@ const getAllProperties = (content) => {
   const tree = getTree(content);
 
   walk(tree, {
-    enter(node, parent, key, index) {
+    enter(node, _parent, _key, _index) {
       if (node.type === "MemberExpression") {
         if (node.property.type === "Identifier") {
           if (!properties.includes(node.property.name)) {

@@ -1,9 +1,13 @@
-import { text } from "@clack/prompts";
-import { cancel } from "@clack/prompts";
-import { select } from "@clack/prompts";
-import { group } from "@clack/prompts";
+import { text, cancel, isCancel, select, group } from "@clack/prompts";
 
 import { fileExists, getJsFiles } from "./utils.js";
+
+const handleCancel = (value) => {
+  if (isCancel(value)) {
+    cancel("Operation cancelled.");
+    process.exit(0);
+  }
+};
 
 const buildOptions = (array) => {
   return array.map((item) => {
@@ -38,6 +42,17 @@ const selectAndPromptNewName = async ({
   return result;
 };
 
+const getText = async (message) => {
+  const result = await text({ message });
+  handleCancel(result);
+  return result;
+};
+
+const askValue = async () => {
+  const result = await getText("What is a value?");
+  return result;
+};
+
 const selectJsFile = async ({ root, message }) => {
   const files = getJsFiles({ root });
   const filesOptions = buildOptions(files);
@@ -45,6 +60,8 @@ const selectJsFile = async ({ root, message }) => {
     message,
     options: filesOptions,
   });
+
+  handleCancel(file);
   return file;
 };
 
@@ -56,6 +73,7 @@ const selectCorrectJsFile = async ({ file, message }) => {
     file = await selectJsFile({ message });
   }
 
+  handleCancel(file);
   return file;
 };
 
@@ -71,16 +89,23 @@ const selectCommand = async ({ message } = {}) => {
         label: "view",
         value: "view",
       },
+      {
+        label: "manipulate (perform some modifications over arrays, objects, etc.)",
+        value: "manipulate",
+      },
     ],
   });
 
+  handleCancel(command);
   return command;
 };
 
 export {
   buildOptions,
+  getText,
   selectAndPromptNewName,
   selectJsFile,
   selectCorrectJsFile,
   selectCommand,
+  askValue,
 };

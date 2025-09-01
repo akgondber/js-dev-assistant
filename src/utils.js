@@ -1,6 +1,8 @@
 import { fdir } from "fdir";
 import fs from "node:fs";
+import * as R from "radash";
 import ansiEscapes from "ansi-escapes";
+import { getTree } from "./extractors.js";
 
 const writeToFile = (file, data) => {
   fs.writeFileSync(file, data);
@@ -49,11 +51,100 @@ const getJsFiles = ({ root } = {}) => {
 };
 
 const isAvailableCommandName = (name) => {
-  return ["refactor", "view"].includes(name.toLowerCase());
+  return ["refactor", "view", "manipulate"].includes(name.toLowerCase());
 };
 
 const cleanConsole = () => {
   process.stdout.write(ansiEscapes.clearTerminal);
+};
+
+const isNumeric = (str) => {
+  if (typeof str !== "string") return false;
+  return !isNaN(str) && !Number.isNaN(parseFloat(str));
+};
+
+const isQuoteFree = (val) => {
+  return isNumeric(val) || isBool(val);
+};
+
+const maybeQuoted = (val) => {
+  return isQuoteFree(val) ? val : quotify(val);
+};
+
+const primitivify = (val) => {
+  if (isNumeric(val)) {
+    return Number(val);
+  } else if (isBool(val)) {
+    return typeof val === "boolean" ? val : val === "true";
+  }
+
+  return val;
+};
+
+const isBool = (val) => {
+  return typeof val === "boolean" || val === "true" || val === "false";
+};
+
+const getAllTargetIndexes = (arr, val) => {
+  const indexes = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (R.get(arr[i], "value") === val) {
+      indexes.push(i);
+    }
+  }
+
+  return indexes;
+};
+
+const getAllBinaryExpressionsIndexes = (arr, val) => {
+  const indexes = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].type === "BinaryExpression") {
+      const inputTree = getTree(val);
+      const targetBinary = inputTree.body[0].expression;
+
+      if (targetBinary.type === "BinaryExpression") {
+        if (
+          arr[i].left.value === targetBinary.left.value &&
+          arr[i].right.value === targetBinary.right.value &&
+          arr[i].operator === targetBinary.operator
+        ) {
+          indexes.push(i);
+        }
+      }
+    }
+  }
+
+  return indexes;
+};
+
+const hasQuotes = (str) => {
+  if (R.isEmpty(str) || str.length < 2) {
+    return false;
+  }
+
+  const firstChar = str[0];
+  const lastChar = str[str.length - 1];
+
+  return (
+    (firstChar === '"' || firstChar === "'") &&
+    (lastChar === '"' || lastChar === "'")
+  );
+};
+
+const quotify = (str) => {
+  return hasQuotes(str) ? str : `"${str}"`;
+};
+
+const isKeyEq = (name) => (node) => {
+  return node.key.name === name;
+};
+
+const selectible = (item) => {
+  return {
+    label: item,
+    value: item,
+  };
 };
 
 export {
@@ -62,6 +153,16 @@ export {
   fileExists,
   getFdirFiles,
   getJsFiles,
+  getAllTargetIndexes,
+  getAllBinaryExpressionsIndexes,
   isAvailableCommandName,
   cleanConsole,
+  isNumeric,
+  isBool,
+  isKeyEq,
+  hasQuotes,
+  quotify,
+  maybeQuoted,
+  primitivify,
+  selectible,
 };

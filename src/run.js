@@ -1,17 +1,13 @@
 import fs from "node:fs";
-import readline from "readline";
+import readline from "node:readline";
 import ansiEscapes from "ansi-escapes";
 import { log, select, outro, group, text } from "@clack/prompts";
 import terminalSize from "terminal-size";
 import { EOL } from "node:os";
 
-import {
-  buildOptions,
-  selectAndPromptNewName,
-  selectJsFile,
-} from "./clack-helpers.js";
+import { buildOptions, selectAndPromptNewName } from "./clack-helpers.js";
 import { cleanConsole, readFile, writeToFile } from "./utils.js";
-import { getFileContent, getTree } from "./extractors.js";
+import { getFileContent } from "./extractors.js";
 import { getAllVariables, refactorVariable } from "./refactorers/variable.js";
 import { getPlaceholder, getVisibleLines } from "./viewport.js";
 import { colon, endstring } from "./constants.js";
@@ -20,7 +16,6 @@ import chalk from "chalk";
 import { getAllProperties, refactorProperty } from "./refactorers/property.js";
 
 const runRefactor = async (file) => {
-  // const file = await selectJsFile(`What is file you want to refactor?`);
   const fileContent = getFileContent(file);
 
   const refactoringSubject = await select({
@@ -46,9 +41,7 @@ const runRefactor = async (file) => {
     const assignments = getAllVariables(fileContent);
 
     if (assignments.length === 0) {
-      log.info(
-        "It seems there are no variable declarations in the source file.",
-      );
+      log.info("It seems there are no variable declarations in the source file.");
       outro("Exiting.");
       process.exit(0);
     }
@@ -127,40 +120,43 @@ const runView = async (file) => {
   const lastRow = rows - 1;
   const fileContent = readFile(file);
 
-  let newLineCounter = 0;
-  let j = 0;
   let stringView = "";
   let indexNewlineTakenIntoConsideration = 0;
   let prevIndex = -1;
 
   for (let i = 0; i < fileContent.length; i++) {
     if (prevIndex > -1) {
-      if (
-        fileContent[prevIndex] === "\n" ||
-        fileContent[prevIndex] === "\r\n"
-      ) {
+      if (fileContent[prevIndex] === "\n" || fileContent[prevIndex] === "\r\n") {
         indexNewlineTakenIntoConsideration = 0;
       }
     }
 
     indexNewlineTakenIntoConsideration++;
 
-    j++;
-
     if (indexNewlineTakenIntoConsideration > columns) {
+      process.stdout.write("Now: ");
+      process.stdout.write(ansiEscapes.cursorNextLine);
+
       stringView += EOL;
+      process.stdout.write(stringView.split(EOL).length);
+
       indexNewlineTakenIntoConsideration = 0;
-      newLineCounter++;
-      j = 0;
     }
-    stringView += fileContent[i];
+    if (
+      fileContent[i] === "\n" ||
+      fileContent[i] === "\r\n" ||
+      fileContent[i] === EOL
+    ) {
+      stringView += EOL;
+    } else {
+      stringView += fileContent[i];
+    }
     prevIndex = i;
   }
-  let lines = stringView.split(EOL);
-  let loopCount = Math.min(lines.length, rows) - 1;
-
+  const lines = stringView.split(EOL);
   cleanConsole();
 
+  const loopCount = Math.min(lines.length, rows) - 1;
   for (let i = 0; i < loopCount; i++) {
     process.stdout.write(lines[i]);
     if (i < rows - 1) {
@@ -177,7 +173,7 @@ const runView = async (file) => {
 
   let scrollOffset = 0;
 
-  const keypressListener = (ch, key) => {
+  const keypressListener = (_ch, key) => {
     if (key && key.name === "y") {
     } else if (key && key.name === "down") {
       if (scrollOffset + rows >= stringView.split(EOL).length) {
@@ -208,7 +204,7 @@ const runView = async (file) => {
     } else if (key && key.name === "q") {
       cleanConsole();
       process.stdin.pause();
-    } else if (key && key.ctrl && key.name === "c") {
+    } else if (key?.ctrl && key.name === "c") {
       cleanConsole();
       process.stdin.pause();
     }

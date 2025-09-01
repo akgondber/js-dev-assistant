@@ -1,7 +1,6 @@
 .purposefile                    Configures purposefile
 .gitignore                      Configures git to ignore certain files
-.prettierrc                     Configures Prettier
-.prettierignore                 Configures Prettier ignored files
+biome.json                      Configures biome
 package.json                    Configures npm and related tools
 pnpm-lock.yaml                  Lock file for pnpm
 README.md                       Documentation for repo

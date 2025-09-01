@@ -1,15 +1,19 @@
 {
   "name": "js-dev-assistant",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "JS Developer assistant - manipulate over source files - refactor, view, etc. not leaving a terminal",
   "main": "src/cli.js",
   "scripts": {
     "test": "vitest",
     "build": "unbuild",
     "dev": "node src/cli.js",
-    "prettify": "prettier . --write",
-    "pretcheck": "prettier . --check",
-    "checkfiles": "purposefile"
+    "prettify": "biome format --write",
+    "lint": "biome lint",
+    "lintfix": "biome lint --write",
+    "unuvars": "biome lint --only=lint/correctngitess/noUnusedVariables",
+    "unufupas": "biome lint --only=lint/correctness/noUnusedFunctionParameters",
+    "checkfiles": "purposefile",
+    "biomit": "biome format --write"
   },
   "keywords": [
     "dev",
@@ -46,16 +50,18 @@
     "ansi-escapes": "^7.0.0",
     "chalk": "^5.4.1",
     "citty": "^0.1.6",
+    "execa": "^9.6.0",
     "fdir": "^6.4.6",
     "figures": "^6.1.0",
     "magic-string": "^0.30.17",
     "meriyah": "^6.1.4",
     "meriyah-walker": "^3.0.0",
+    "radash": "^12.1.1",
     "terminal-size": "^4.0.0"
   },
   "type": "module",
   "devDependencies": {
-    "prettier": "^3.6.2",
+    "@biomejs/biome": "2.2.2",
     "purposefile": "^1.2.0",
     "unbuild": "^3.5.0",
     "vitest": "^3.2.4"
