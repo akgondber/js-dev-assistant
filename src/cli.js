@@ -105,7 +105,7 @@ const main = defineCommand({
         );
         applicableForHook = true;
         succeeded = true;
-        resultMessage = `${successPrefix}File has been refactored.`;
+        resultMessage = `File has been refactored.`;
       }
     } else if (operation === "manipulate") {
       const result = await manipulate(file);

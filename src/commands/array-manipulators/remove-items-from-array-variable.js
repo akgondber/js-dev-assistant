@@ -15,6 +15,7 @@ const removeItemsFromArrayVariable = async (content, targetVariable) => {
     async enter(node, _parent, _key, _index) {
       if (node.type === "VariableDeclarator") {
         if (
+          node.init !== null &&
           node.init.type === "ArrayExpression" &&
           node.id.name === targetVariable
         ) {

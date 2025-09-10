@@ -16,6 +16,7 @@ const addKeyValuePair = async (content, targetVariable) => {
     async enter(node, _parent, _key, _index) {
       if (node.type === "VariableDeclarator") {
         if (
+          node.init !== null &&
           node.init.type === "ObjectExpression" &&
           node.id.name === targetVariable
         ) {

@@ -1,9 +1,9 @@
 import { asyncWalk } from "meriyah-walker";
 import MagicString from "magic-string";
+import { select } from "@clack/prompts";
 import { getTree } from "../../extractors.js";
 import { askValue } from "../../clack-helpers.js";
 import { isKeyEq, maybeQuoted, selectible } from "../../utils.js";
-import { select } from "@clack/prompts";
 import { buildResult } from "../manipulator-utils.js";
 
 const updateValueForKey = async (content, targetVariable) => {

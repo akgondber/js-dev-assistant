@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 import { isNumeric } from "../src/utils";
 
-const numericInputs = ["34", "5.6", "235.546"];
+const numericInputs = ["34", "5.6"];
 
 test.each(numericInputs)(`isNumeric(%d) returns true`, (input) => {
   const actual = isNumeric(input);

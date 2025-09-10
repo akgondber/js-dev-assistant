@@ -1,10 +1,10 @@
 {
   "name": "js-dev-assistant",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "JS Developer assistant - manipulate over source files - refactor, view, etc. not leaving a terminal",
   "main": "src/cli.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "build": "unbuild",
     "dev": "node src/cli.js",
     "prettify": "biome format --write",
@@ -13,7 +13,8 @@
     "unuvars": "biome lint --only=lint/correctngitess/noUnusedVariables",
     "unufupas": "biome lint --only=lint/correctness/noUnusedFunctionParameters",
     "checkfiles": "purposefile",
-    "biomit": "biome format --write"
+    "biomit": "biome format --write",
+    "mprv": "biome format tmp/playground/bd.js --write"
   },
   "keywords": [
     "dev",

@@ -106,10 +106,14 @@ const manipulate = async (file) => {
     }
   } else if (objectManipulations.includes(manipulationSubject)) {
     if (manipulationSubject === "addKeyValueForObject") {
-      const objectVarialbles = getAllObjectVariables(fileContent);
+      const objectVariables = getAllObjectVariables(fileContent);
+      if (R.isEmpty(objectVariables)) {
+        log.info(`There are no object variables in the source file.`);
+        process.exit(0);
+      }
       const targetObjectVariable = await select({
         message: "Select a target variable",
-        options: objectVarialbles.map((item) => ({
+        options: objectVariables.map((item) => ({
           label: item,
           value: item,
         })),

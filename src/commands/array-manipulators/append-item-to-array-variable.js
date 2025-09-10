@@ -1,7 +1,7 @@
 import { walk } from "meriyah-walker";
 import MagicString from "magic-string";
 import { getTree } from "../../extractors.js";
-import { isNumeric, quotify } from "../../utils.js";
+import { isNumeric, maybeStringRepr, quotify } from "../../utils.js";
 import { buildResult } from "../manipulator-utils.js";
 
 const appendItemToArrayVariable = (content, targetVariable, newItem) => {
@@ -13,11 +13,20 @@ const appendItemToArrayVariable = (content, targetVariable, newItem) => {
     enter(node, _parent, _key, _index) {
       if (node.type === "VariableDeclarator") {
         if (
+          node.init !== null &&
           node.init.type === "ArrayExpression" &&
           node.id.name === targetVariable
         ) {
           const lastElement = node.init.elements[node.init.elements.length - 1];
-          let appendable = `${isNumeric(newItem) ? newItem : quotify(newItem)}`;
+
+          let appendable = `${
+            isNumeric(newItem)
+              ? maybeStringRepr(
+                  newItem,
+                  node.init.elements.map((el) => el.value),
+                )
+              : quotify(newItem)
+          }`;
           let endIndex = node.end - 1;
 
           if (lastElement !== undefined) {

@@ -11,11 +11,6 @@ const getVisibleLines = (str, { rows, scrollOffset, scrollDirection }) => {
     .split(EOL)
     .slice(scrollOffset, rows + scrollOffset)
     .join(EOL);
-  // if (scrollDirection === 'up') {
-  //     for (let i = 0; i < rows; i++) {
-
-  //     }
-  // }
 };
 
 const getPlaceholder = (stringView, rows, scrollOffset) => {

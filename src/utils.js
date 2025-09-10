@@ -63,8 +63,24 @@ const isNumeric = (str) => {
   return !isNaN(str) && !Number.isNaN(parseFloat(str));
 };
 
+const allArrayElementsAreNumericStrings = (value) => {
+  if (value.length === 0) {
+    return false;
+  }
+
+  return value.every((item) => typeof item === "string" && isNumeric(item));
+};
+
+const maybeStringRepr = (item, array) => {
+  if (allArrayElementsAreNumericStrings(array)) {
+    return quotify(item);
+  }
+
+  return item;
+};
+
 const isQuoteFree = (val) => {
-  return isNumeric(val) || isBool(val);
+  return isNumeric(val) || isBool(val) || isExpression(val);
 };
 
 const maybeQuoted = (val) => {
@@ -83,6 +99,10 @@ const primitivify = (val) => {
 
 const isBool = (val) => {
   return typeof val === "boolean" || val === "true" || val === "false";
+};
+
+const isExpression = (val) => {
+  return /\w+\.\w+\([\w\W]+\)/.test(val);
 };
 
 const getAllTargetIndexes = (arr, val) => {
@@ -159,10 +179,13 @@ export {
   cleanConsole,
   isNumeric,
   isBool,
+  isExpression,
   isKeyEq,
   hasQuotes,
   quotify,
   maybeQuoted,
   primitivify,
   selectible,
+  allArrayElementsAreNumericStrings,
+  maybeStringRepr,
 };

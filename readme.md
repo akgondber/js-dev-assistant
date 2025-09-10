@@ -52,19 +52,7 @@ Tips:
 
 ![demo-demo](media/demo.gif)
 
-## Individual features
-
-### Refactor variable
-
-![refactor-property-demo](media/refactor-property-demo.gif)
-
-### Refactor variable
-
-![refactor-variable-demo](media/refactor-variable-demo.gif)
-
-### View file
-
-![view-file](media/view-file.gif)
+[More examples and tips](https://github.com/akgondber/js-dev-assistant/blob/main/docs/highlighted-features.md)
 
 ## License
 
